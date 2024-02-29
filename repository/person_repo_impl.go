@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"errors"
+	"fmt"
 	"main/data/request"
 	"main/helper"
 	model "main/models"
@@ -40,11 +40,13 @@ func (t PersonRepositoryImpl) Delete(personId int) {
 
 func (t PersonRepositoryImpl) FindById(personId int) (model.Person, error) {
 	var person model.Person
-	result := t.Db.Find(&person, personId)
-	if result != nil {
+	result := t.Db.Where("id = ?", personId).First(&person)
+	if result.Error == nil {
+		fmt.Println(result.Error)
 		return person, nil
 	} else {
-		return person, errors.New("person is not found")
+		return person, result.Error
+		
 	}
 }
 

@@ -4,7 +4,6 @@ import (
 	"main/config"
 	"main/controller"
 	"main/helper"
-	"main/middlewares"
 	model "main/models"
 	"main/repository"
 	"main/routes"
@@ -12,7 +11,6 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 )
 
@@ -28,7 +26,7 @@ func main(){
 	personController:=controller.NewPersonController(personService)
 
     router := routes.PersonRoutes(personController)
-	router.Use(gin.CustomRecovery(middlewares.ErrorHandler))
+	
   
  server := &http.Server{
 	Addr:           ":8888",

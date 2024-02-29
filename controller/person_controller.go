@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"main/data/exceptions"
 	"main/data/request"
 	"main/data/response"
 	"main/helper"
@@ -21,10 +22,8 @@ func NewPersonController(ps services.PersonService) *PersonController {
 
 func (controller *PersonController)Create(ctx *gin.Context){
   createPersonRequest:=request.CreatePersonRequest{}
-  err:=ctx.ShouldBindJSON(&createPersonRequest);
-   if err !=nil{
-	panic("Error de Validacion")
-  }
+   err:=  ctx.ShouldBindJSON(&createPersonRequest);
+   exceptions.ThrowBadRequest(ctx,err)
   controller.personService.Create(createPersonRequest)
   SendJSONResponse(ctx,nil)
 }
