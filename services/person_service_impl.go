@@ -3,22 +3,19 @@ package services
 import (
 	"main/data/request"
 	"main/data/response"
-	"main/helper"
 	model "main/models"
 	"main/repository"
-
-	"github.com/go-playground/validator/v10"
+	helper "main/utils"
+	"math/rand"
 )
 
 type PersonServiceImpl struct {
 	PersonRepository repository.PersonRepository
-	validate         *validator.Validate
+	
 }
 
 // Create implements PersonService.
 func (p *PersonServiceImpl) Create(person request.CreatePersonRequest) {
-	err:= p.validate.Struct(person)
-	helper.ErrorPanic(err)
 	personModel:=model.Person{
 		Name: person.Name,
 	}
@@ -63,9 +60,43 @@ func (p *PersonServiceImpl) Update(person request.UpdatePersonRequest) {
 	p.PersonRepository.Update(personData)
 }
 
-func NewPersonServiceImpl(personRepo repository.PersonRepository, validate *validator.Validate) PersonService {
+func (p *PersonServiceImpl) Shuffle(shuffle request.ShuffleRequest) response.ShuffleResponse{
+	var res= []response.PersonTasks{}
+	 var projects=shuffle.Projects
+	for _, p := range shuffle.Persons {
+		res=append(res ,response.PersonTasks{
+			Name: p.Name,
+			Projects: []response.Projects{},
+		})
+	}
+	 for _,p:=range projects{
+       per:=helper.Filter(res,func (t response.PersonTasks) bool{
+		return len(t.Projects)==minors(res)
+	   })
+	   var rmd=rand.Intn(len(per))
+	   per[rmd].Projects=append(per[rmd].Projects, response.Projects{Name: p.Name})
+	   res[per[rmd].RealIndex]= response.PersonTasks{
+		Name: per[rmd].Name,
+		Projects: per[rmd].Projects,
+	   }
+	 }
+	return response.ShuffleResponse{
+		Persons: res,
+	}
+}
+
+func NewPersonServiceImpl(personRepo repository.PersonRepository) PersonService {
 	return &PersonServiceImpl{
 		PersonRepository: personRepo,
-		validate: validate,
 	}
+}
+
+func minors(pers []response.PersonTasks) int {
+	var m int
+	for i, e := range pers {
+     if i==0 || len(e.Projects) < m {
+         m = len(e.Projects)
+     }
+ }
+ return m
 }

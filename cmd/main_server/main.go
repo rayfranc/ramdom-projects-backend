@@ -3,12 +3,11 @@ package main
 import (
 	"main/config"
 	"main/controller"
-	"main/helper"
-	"main/middlewares"
 	model "main/models"
 	"main/repository"
 	"main/routes"
 	"main/services"
+	helper "main/utils"
 	"net/http"
 	"time"
 
@@ -23,11 +22,11 @@ func main(){
   validate:=validator.New()
   db.Table("people").AutoMigrate(&model.Person{})
   app:=gin.Default()
-  app.Use(gin.CustomRecovery(middlewares.ErrorHandler))
+  //app.Use(gin.CustomRecovery(middlewares.ErrorHandler))
 	personRepository:=repository.NewPersonRepositoryImpl(db)
-	personService:=services.NewPersonServiceImpl(personRepository,validate)
-	personController:=controller.NewPersonController(personService)
-
+	personService:=services.NewPersonServiceImpl(personRepository)
+	personController:=controller.NewPersonController(personService,validate)
+	app.POST("/api/shuffle",personController.Shuffle)
 app = routes.PersonRoutes(personController,app)
 	
   

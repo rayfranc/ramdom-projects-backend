@@ -11,6 +11,7 @@ type PersonService interface{
 	Delete(personId int)
 	FindById(personId int) response.PersonResponse
 	FindAll() []response.PersonResponse
+	Shuffle(shuffleRequest request.ShuffleRequest) (response.ShuffleResponse)
 }
 
 

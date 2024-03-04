@@ -1,5 +1,5 @@
 package request
 
 type CreatePersonRequest struct{
-	Name string `validate:"required,min=3" json:"name"`
+	Name string `json:"name" binding:"required,min=3" `
 }
