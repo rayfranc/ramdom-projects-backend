@@ -87,8 +87,8 @@ jobs:
           
       - name: Build and Push Container
         run: |-
-          docker build -t "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ github.repository }}:${{ github.sha }}" ./
-          docker push "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ github.repository }}:${{ github.sha }}"
+          docker build -t "{{ github.repository }}:${{ github.sha }}" ./
+          docker push "${{ github.repository }}:${{ github.sha }}"
 
       # END - Docker auth and build
 
