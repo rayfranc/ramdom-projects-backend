@@ -11,6 +11,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 )
@@ -22,6 +23,9 @@ func main(){
   validate:=validator.New()
   db.Table("people").AutoMigrate(&model.Person{})
   app:=gin.Default()
+  config := cors.DefaultConfig()
+  config.AllowAllOrigins = true
+  app.Use(cors.New(config))
 	personRepository:=repository.NewPersonRepositoryImpl(db)
 	personService:=services.NewPersonServiceImpl(personRepository)
 	personController:=controller.NewPersonController(personService,validate)

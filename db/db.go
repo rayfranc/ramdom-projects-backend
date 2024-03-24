@@ -2,18 +2,21 @@ package config
 
 import (
 	"fmt"
+	"os"
+	"strconv"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
-const (
-	host     = "127.0.0.1"
-	port     = 5432
-	user     = "postgres"
-	password = "123"
-	dbName   = "test"
+var(
+	host = os.Getenv("DB_HOST")
+	port,_  = strconv.Atoi(os.Getenv("DB_PORT"))
+	user     = os.Getenv("DB_USER")
+	password = os.Getenv("DB_PASS")
+	dbName   = os.Getenv("DB_NAME")
 )
+
 
 func DatabaseConnection() *gorm.DB {
 

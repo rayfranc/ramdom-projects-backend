@@ -1,8 +1,8 @@
 package main
 
 import (
-	"main/config"
 	"main/controller"
+	config "main/db"
 	model "main/models"
 	"main/repository"
 	"main/routes"
