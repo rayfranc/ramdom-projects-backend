@@ -5,9 +5,7 @@ import (
 	"main/data/request"
 	"main/data/response"
 	"main/services"
-	helper "main/utils"
 	"net/http"
-	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
@@ -22,55 +20,55 @@ func NewPersonController(ps services.PersonService, validate *validator.Validate
 	return &PersonController{personService: ps,validate: validate,}
 }
 
-func (controller *PersonController)Create(ctx *gin.Context){
-  createPersonRequest:=request.CreatePersonRequest{}
-   err:=  ctx.ShouldBindJSON(&createPersonRequest);
+// func (controller *PersonController)Create(ctx *gin.Context){
+//   createPersonRequest:=request.CreatePersonRequest{}
+//    err:=  ctx.ShouldBindJSON(&createPersonRequest);
    
-   if err!=nil{
+//    if err!=nil{
 	
-	ctx.AbortWithStatusJSON(http.StatusBadRequest,err.Error())	
-	return
-   }
-    fmt.Println(createPersonRequest)
-	fmt.Printf("Incoming Data %+v ", createPersonRequest)
-  controller.personService.Create(createPersonRequest)
-  SendJSONResponse(ctx,nil)
-}
+// 	ctx.AbortWithStatusJSON(http.StatusBadRequest,err.Error())	
+// 	return
+//    }
+//     fmt.Println(createPersonRequest)
+// 	fmt.Printf("Incoming Data %+v ", createPersonRequest)
+//   controller.personService.Create(createPersonRequest)
+//   SendJSONResponse(ctx,nil)
+// }
 
-func (controller *PersonController)Update(ctx *gin.Context){
-  updatePersonRequest:=request.UpdatePersonRequest{}
-	err:=ctx.ShouldBindJSON(&updatePersonRequest)
-	helper.ErrorPanic(err)
-	personId:=ctx.Param("personId")
-	id,err:= strconv.Atoi(personId)
-	helper.ErrorPanic(err)
-	updatePersonRequest.Id=id
-	controller.personService.Update(updatePersonRequest)
-	SendJSONResponse(ctx,nil)
+// func (controller *PersonController)Update(ctx *gin.Context){
+//   updatePersonRequest:=request.UpdatePersonRequest{}
+// 	err:=ctx.ShouldBindJSON(&updatePersonRequest)
+// 	helper.ErrorPanic(err)
+// 	personId:=ctx.Param("personId")
+// 	id,err:= strconv.Atoi(personId)
+// 	helper.ErrorPanic(err)
+// 	updatePersonRequest.Id=id
+// 	controller.personService.Update(updatePersonRequest)
+// 	SendJSONResponse(ctx,nil)
 
-}
+// }
 
-func (controller *PersonController)FindAll(ctx *gin.Context){
-	personsResponse:=controller.personService.FindAll()
-	SendJSONResponse(ctx,personsResponse)
-}
+// func (controller *PersonController)FindAll(ctx *gin.Context){
+// 	personsResponse:=controller.personService.FindAll()
+// 	SendJSONResponse(ctx,personsResponse)
+// }
 
-func (controller *PersonController)FindById(ctx *gin.Context){
-	personId:=ctx.Param("personId")
-	id, err :=strconv.Atoi(personId)
-	 helper.ErrorPanic(err)
-	 personResponse:=controller.personService.FindById(id)
-	 SendJSONResponse(ctx,personResponse)
-}
+// func (controller *PersonController)FindById(ctx *gin.Context){
+// 	personId:=ctx.Param("personId")
+// 	id, err :=strconv.Atoi(personId)
+// 	 helper.ErrorPanic(err)
+// 	 personResponse:=controller.personService.FindById(id)
+// 	 SendJSONResponse(ctx,personResponse)
+// }
 
-func (controller *PersonController)Delete(ctx *gin.Context){
-     personId:=ctx.Param("personId")
-	 id, err :=strconv.Atoi(personId)
-	 helper.ErrorPanic(err)
-	 controller.personService.Delete(id)
+// func (controller *PersonController)Delete(ctx *gin.Context){
+//      personId:=ctx.Param("personId")
+// 	 id, err :=strconv.Atoi(personId)
+// 	 helper.ErrorPanic(err)
+// 	 controller.personService.Delete(id)
 
-	 SendJSONResponse(ctx,nil)
-}
+// 	 SendJSONResponse(ctx,nil)
+// }
 
 func (controller *PersonController)Shuffle(ctx *gin.Context){
 	shuffleRequest:=request.ShuffleRequest{}

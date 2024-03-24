@@ -2,9 +2,6 @@ package main
 
 import (
 	"main/controller"
-	config "main/db"
-	model "main/models"
-	"main/repository"
 	"main/routes"
 	"main/services"
 	helper "main/utils"
@@ -18,13 +15,13 @@ import (
 func main(){
  
 
-  db:=config.DatabaseConnection()
-  validate:=validator.New()
-  db.Table("people").AutoMigrate(&model.Person{})
+//   db:=config.DatabaseConnection()
+validate:=validator.New()
+//   db.Table("people").AutoMigrate(&model.Person{})
   app:=gin.Default()
   //app.Use(gin.CustomRecovery(middlewares.ErrorHandler))
-	personRepository:=repository.NewPersonRepositoryImpl(db)
-	personService:=services.NewPersonServiceImpl(personRepository)
+	// personRepository:=repository.NewPersonRepositoryImpl(db)
+	 personService:=services.NewPersonServiceImpl()
 	personController:=controller.NewPersonController(personService,validate)
 	app.POST("/api/shuffle",personController.Shuffle)
 app = routes.PersonRoutes(personController,app)

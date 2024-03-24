@@ -6,11 +6,11 @@ import (
 )
 
 type PersonService interface{
-	Create(person request.CreatePersonRequest)
-	Update(person request.UpdatePersonRequest)
-	Delete(personId int)
-	FindById(personId int) response.PersonResponse
-	FindAll() []response.PersonResponse
+	// Create(person request.CreatePersonRequest)
+	// Update(person request.UpdatePersonRequest)
+	// Delete(personId int)
+	// FindById(personId int) response.PersonResponse
+	// FindAll() []response.PersonResponse
 	Shuffle(shuffleRequest request.ShuffleRequest) (response.ShuffleResponse)
 }
 
