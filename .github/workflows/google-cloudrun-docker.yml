@@ -87,7 +87,7 @@ jobs:
           
       - name: Build and Push Container
         run: |-
-          docker build -t "{{ github.repository }}:${{ github.sha }}" ./
+          docker build -t "ramdom-project-backend/{{ github.repository }}:${{ github.sha }}" ./
           docker push "us-central1-docker.pkg.dev/upheld-conduit-390221/rayfranc/ramdom-projects-backend:${{ github.sha }}"
 
       # END - Docker auth and build
