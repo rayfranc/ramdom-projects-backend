@@ -21,7 +21,7 @@ ENV DB_USER=postgres
 ENV DB_PASS=123
 ENV DB_NAME=test
 
-EXPOSE 8888
+EXPOSE 8080
 
 # Run
 CMD [ "./main" ]

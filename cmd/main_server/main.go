@@ -28,7 +28,7 @@ app = routes.PersonRoutes(personController,app)
 	
   
  server := &http.Server{
-	Addr:           ":8888",
+	Addr:           ":8080",
 	Handler:        app,
 	ReadTimeout:    10 * time.Second,
 	WriteTimeout:   10 * time.Second,
